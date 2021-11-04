@@ -8,6 +8,9 @@ public class MyHashMap<K, V> implements Map<K, V> {
     private MyLinkedList<Node<K, V>>[] table;
     private int size;
     private static final int INITIAL_CAPACITY = 16;
+    private V value;
+    private byte DoWeHaveNullKey = 0;
+    // 0 when we did not add null key, and 1 if when we did it.
 
 
     public MyHashMap() {
@@ -49,77 +52,96 @@ public class MyHashMap<K, V> implements Map<K, V> {
     @Override
     public V put(K key, V value) {
         checkAndIncreaseSize();
-//        if (key == null) {
-//
-//            return null;
-//        } else {
-        Node<K, V> newNode = new Node<>(key, value);
-        MyLinkedList<Node<K, V>> listOfNodes = table[tableIndex(key)];
-        final int index = listOfNodes.indexOf(newNode);
-        if (index == -1) {
-            listOfNodes.add(newNode);
-            size++;
+        if (key == null) {
+            this.value = value;
+            DoWeHaveNullKey = 1;
         } else {
-            listOfNodes.set(index, newNode);
+            Node<K, V> newNode = new Node<>(key, value);
+            MyLinkedList<Node<K, V>> listOfNodes = table[tableIndex(key)];
+            final int index = listOfNodes.indexOf(newNode);
+            if (index == -1) {
+                listOfNodes.add(newNode);
+                size++;
+            } else {
+                listOfNodes.set(index, newNode);
+            }
         }
         return value;
-//        }
     }
 
     @Override
     public V get(Object key) {
-        MyLinkedList<Node<K, V>> listOfNodes = table[tableIndex((K) key)];
-        Iterator<Node<K, V>> iterator = listOfNodes.iterator();
-        while (iterator.hasNext()) {
-            Node<K, V> node = iterator.next();
-            if (Objects.equals(node.key, key)) {
-                return node.value;
+        if (key == null) {
+            return value;
+        } else {
+            MyLinkedList<Node<K, V>> listOfNodes = table[tableIndex((K) key)];
+            Iterator<Node<K, V>> iterator = listOfNodes.iterator();
+            while (iterator.hasNext()) {
+                Node<K, V> node = iterator.next();
+                if (Objects.equals(node.key, key)) {
+                    return node.value;
+                }
             }
+            return null;
         }
-        return null;
     }
 
     @Override
     public V remove(Object key) {
-        MyLinkedList<Node<K, V>> listOfNodes = table[tableIndex((K) key)];
-        Iterator<Node<K, V>> iterator = listOfNodes.iterator();
-        while (iterator.hasNext()) {
-            Node<K, V> node = iterator.next();
-            if (Objects.equals(node.key, key)) {
-                V saveVal = node.getValue();
-                listOfNodes.remove(node);
-                size--;
-                return saveVal;
+        if (key == null) {
+            V temp = value;
+            value = null;
+            DoWeHaveNullKey = 0;
+            return temp;
+        } else {
+            MyLinkedList<Node<K, V>> listOfNodes = table[tableIndex((K) key)];
+            Iterator<Node<K, V>> iterator = listOfNodes.iterator();
+            while (iterator.hasNext()) {
+                Node<K, V> node = iterator.next();
+                if (Objects.equals(node.key, key)) {
+                    V saveVal = node.getValue();
+                    listOfNodes.remove(node);
+                    size--;
+                    return saveVal;
+                }
             }
+            return null;
         }
-        return null;
     }
 
     @Override
     public boolean containsKey(Object key) {
-        MyLinkedList<Node<K, V>> listOfNodes = table[tableIndex((K) key)];
-        Iterator<Node<K, V>> iterator = listOfNodes.iterator();
-        while (iterator.hasNext()) {
-            Node<K, V> node = iterator.next();
-            if (Objects.equals(node.key, key)) {
-                return true;
+        if (key == null) {
+            return DoWeHaveNullKey == 1;
+        } else {
+            MyLinkedList<Node<K, V>> listOfNodes = table[tableIndex((K) key)];
+            Iterator<Node<K, V>> iterator = listOfNodes.iterator();
+            while (iterator.hasNext()) {
+                Node<K, V> node = iterator.next();
+                if (Objects.equals(node.key, key)) {
+                    return true;
+                }
             }
+            return false;
         }
-        return false;
     }
 
     @Override
     public boolean containsValue(Object value) {
-        for (MyLinkedList<Node<K, V>> listOfNodes : table) {
-            Iterator<Node<K, V>> iterator = listOfNodes.iterator();
-            while (iterator.hasNext()) {
-                Node<K, V> node = iterator.next();
-                if (Objects.equals(node.value, value)) {
-                    return true;
+        if (value == this.value) {
+            return true;
+        } else {
+            for (MyLinkedList<Node<K, V>> listOfNodes : table) {
+                Iterator<Node<K, V>> iterator = listOfNodes.iterator();
+                while (iterator.hasNext()) {
+                    Node<K, V> node = iterator.next();
+                    if (Objects.equals(node.value, value)) {
+                        return true;
+                    }
                 }
             }
+            return false;
         }
-        return false;
     }
 
     @Override

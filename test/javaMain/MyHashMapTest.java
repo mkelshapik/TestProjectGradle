@@ -147,13 +147,21 @@ class MyHashMapTest {
         assertFalse(myHashMap.containsKey('1'));
     }
 
-//    @Test
-//    void checkEqualsMethodIfObjEqualsNull() {
-//        // HashMap can contain null key!!!
-//        String str = null;
-//        myHashMap.put(null, 1);
-//        assertFalse(myHashMap.containsKey(null));
-//    }
+    @Test
+    void checkDoWeCanToSaveNullKeyAndCheckOtherMethodsThatRelatedWithIt() {
+        String str = null;
+        assertEquals(1, myHashMap.put(str, 1));
+        // below i check do we have null key
+        assertTrue(myHashMap.containsKey(null));
+        // here i get value using null key
+        assertEquals(1, myHashMap.get(null));
+        assertTrue(myHashMap.containsValue(1));
+        // here i remove null key and then check if he left
+        assertEquals(1, myHashMap.remove(null));
+        assertFalse(myHashMap.containsKey(null));
+        assertFalse(myHashMap.containsValue(1));
+        assertEquals(null, myHashMap.get(null));
+    }
 
     @Test
     void checkNotImplementedMethods() {
