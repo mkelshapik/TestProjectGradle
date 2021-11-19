@@ -20,7 +20,7 @@ Below I leave a list of collections that i`ve implemented with time and space co
 		- contains() – also has O(n) time complexity;
 - HashMap
 	A map is a key-value mapping, which means that every key is mapped to exactly one value and that we can use the key to retrieve the corresponding value from a map.
-		- put(key, value) - the method has O(1) time complexity, but if we need increase size or we a few object with same hash code, time compexity is O(n);
+		- put(key, value) - the method has O(1) time complexity, but if we need increase size or add a few object with same hash code, time complexity is O(n);
 		- get(key) - has same complexity with put(), in better case it O(1), worst case O(n);
 		- remove(key), containsKey(key), containsValue(value) - have same complexity with put(), in better case it O(1), worst case O(n);
 - HashSet
