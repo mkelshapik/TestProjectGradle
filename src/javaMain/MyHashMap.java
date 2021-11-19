@@ -183,7 +183,7 @@ public class MyHashMap<K, V> implements Map<K, V> {
         throw new IndexOutOfBoundsException();
     }
 
-    public static class Node<K, V> {
+    protected static class Node<K, V> {
 
         private final K key;
         private final V value;
@@ -204,8 +204,8 @@ public class MyHashMap<K, V> implements Map<K, V> {
 
         @Override
         public boolean equals(Object o) {
-//            if (o == null || getClass() != o.getClass()) return false;
-//            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            if (this == o) return true;
             Node<K, V> node = (Node<K, V>) o;
             return Objects.equals(node.key, key);
         }

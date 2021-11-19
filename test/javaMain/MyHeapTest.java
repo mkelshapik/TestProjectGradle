@@ -15,12 +15,7 @@ class MyHeapTest {
         // and overload compare method. He has to sort heap from the bigger
         // to the smallest element in heap
         // than i check it by poll method
-        MyHeap<Integer> myHeap = new MyHeap<>(new Comparator<Integer>() {
-            @Override
-            public int compare(Integer o1, Integer o2) {
-                return o2 - o1;
-            }
-        });
+        MyHeap<Integer> myHeap = new MyHeap<>((o1, o2) -> o2 - o1);
         for (int i = 0; i <= 20; i++) {
             myHeap.add(i);
         }
@@ -36,12 +31,7 @@ class MyHeapTest {
         // the smallest to the bigger element
         // than i add ten elements and start to check it
         // using poll and peek methods
-        MyHeap<String> animals = new MyHeap<>(new Comparator<String>() {
-            @Override
-            public int compare(String o1, String o2) {
-                return o1.compareTo(o2);
-            }
-        });
+        MyHeap<String> animals = new MyHeap<>((o1, o2) -> o1.compareTo(o2));
         animals.add("Duck");
         animals.add("Elephant");
         animals.add("Cat");

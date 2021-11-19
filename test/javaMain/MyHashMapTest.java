@@ -177,4 +177,16 @@ class MyHashMapTest {
         MyHashMap.Node<Integer, Integer> testNode = new MyHashMap.Node<Integer, Integer>(i, 1);
         assertEquals(Objects.hash(i), testNode.hashCode());
     }
+
+    @Test
+    void testEqualsMethodForClassNode() {
+        Integer i = 1;
+        MyHashMap.Node<Integer, Integer> firstNode = new MyHashMap.Node<>(1 , 1);
+        MyHashMap.Node<Integer, Integer> secondNode = null;
+        MyHashMap.Node<Integer, Integer> thirdNode = new MyHashMap.Node<>(i, 2);
+        assertTrue(firstNode.equals(thirdNode));
+        assertFalse(firstNode.equals(secondNode));
+        assertTrue(firstNode.equals(firstNode));
+        assertFalse(firstNode.equals(i));
+    }
 }

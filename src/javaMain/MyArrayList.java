@@ -8,10 +8,12 @@ public class MyArrayList<T> implements List<T> {
     private int capacity = INITIAL_CAPACITY;
     T[] t;
 
+    @SuppressWarnings("unchecked")
     public MyArrayList() {
         t = (T[]) new Object[INITIAL_CAPACITY];
     }
 
+    @SuppressWarnings("unchecked")
     public MyArrayList(int capacity) {
         if (capacity <= 0) {
             throw new IllegalArgumentException("Неправильно вказаний індекс");
@@ -21,6 +23,7 @@ public class MyArrayList<T> implements List<T> {
         }
     }
 
+    @SuppressWarnings("unchecked")
     private void increaseCapacity() {
         T[] temp = t;
         t = (T[]) new Object[temp.length + INITIAL_CAPACITY];
@@ -51,6 +54,7 @@ public class MyArrayList<T> implements List<T> {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public T remove(int index) {
         if (index >= size || index < 0) throw new IllegalArgumentException("Неправильно вказаний індекс");
         T[] temp = t;
@@ -96,7 +100,10 @@ public class MyArrayList<T> implements List<T> {
 
     @Override
     public void clear() {
-        t = (T[]) new Object[capacity];
+        // Цей дженерік коректний, бо новостворений масив того ж типу що і переданний
+        @SuppressWarnings("unchecked")
+        T[] newT = (T[]) new Object[capacity];
+        t = newT;
         size = 0;
     }
 
@@ -124,6 +131,7 @@ public class MyArrayList<T> implements List<T> {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public boolean remove(Object o) {
         for (int i = 0; i < size; i++) {
             if (t[i].equals(o)) {
