@@ -183,6 +183,7 @@ public class MyHashMap<K, V> implements Map<K, V> {
         throw new IndexOutOfBoundsException();
     }
 
+    //@VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
     protected static class Node<K, V> {
 
         private final K key;

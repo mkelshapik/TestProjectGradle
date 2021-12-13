@@ -16,3 +16,4 @@ build/
 bin/
 settings.gradle.kts
 build.gradle.kts
+gradle/
